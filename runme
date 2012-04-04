@@ -1,0 +1,27 @@
+#!/bin/bash
+echo '-----bpreport'
+yesterday=`date -d yesterday '+%d/%b/%Y'`
+./bpdbreport.py -f sample.fmt --no_header --show_backups -s $yesterday bpdbjobs.out > stage1.out
+#./bpdbreport.py -f sample.fmt --no_header --show_backups -s 2/Apr/2012 bpdbjobs4-3.out > stage1.out
+#grep -i prtmb01 stage1.out | grep -i exchange-3 > stage3.out
+#mv stage3.out stage1.out
+echo '-----cleanup'
+./cleanup.sh stage1.out stage2.out
+grep Full stage2.out > stage2.full.out
+grep Cum stage2.out > stage2.cumm.out
+grep Diff stage2.out > stage2.diff.out
+echo '-----produce_gantt -> Full'
+./produce_gantt.py ./stage2.full.out
+mv visual_schedule.svg full.svg
+echo '-----produce_gantt -> Cumm'
+./produce_gantt.py ./stage2.cumm.out
+mv visual_schedule.svg cumm.svg
+echo '-----produce_gantt -> Diff'
+./produce_gantt.py ./stage2.diff.out
+mv visual_schedule.svg diff.svg
+chmod 644 *.svg
+cp *.svg ~/public_html
+chmod 644 ~/public_html/*.svg
+#[ -f stage1.out ] && rm stage1.out
+#[ -f stage2.out ] && rm stage2.out
+#[ -f stage3.out ] && rm stage3.out
