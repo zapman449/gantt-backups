@@ -2,7 +2,7 @@ This project aims to translate data from 'bpdbjobs -report -all_columns'
 through bpdbreport.py (aided by sample.fmt, and some command line flags)
 to generate a gantt chart.  
 
-What's the point?  to see visually when various tries for backup jobs occur.
+What's the point?  To see visually when various tries for backup jobs occur.
 
 --Jason
 
