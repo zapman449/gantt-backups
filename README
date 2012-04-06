@@ -5,3 +5,37 @@ to generate a gantt chart.
 What's the point?  to see visually when various tries for backup jobs occur.
 
 --Jason
+
+Details:
+
+1) run 'bpdbjobs -report -all_columns' on your netbackup master server, and 
+   save the output as 'bpdbjobs.out'.  Bring the bpdbjobs.out file to the
+   directory where the code lives.  Then run 'runme'.  
+2) Four SVG files will be created: all.svg, full.svg, cumm.svg and diff.svg.
+   all.svg contains the gantt chart for all jobs.  Full, Cumm and Diff only
+   show the jobs following those backup schedules.  This may need to be
+   tweaked for your environment
+3) You may want to add a step to 'runme' which moves the 4 SVG files to a
+   websserver or somesuch where you can view the files.
+
+ToDo's:
+
+1) Setup 'runme' to take a filename argument, instead of a fixed file.
+2) CairoPlot used to produce vertical bars for each demark in the axis (1 
+   vertical bar for each hour in this example).  I need to find the way
+   to turn this back on.
+
+Considerations:
+
+1) I suggest (strongly) that you only throw a day's worth of data into the
+   'produce_gantt.py' script.  The easiest way to do this, is to specify 
+   a date to bpdbreport.py.  The runme script is already setup to do this
+   with the $yesterday variable.
+   The reason for this is these images are HUGE.  I'm not thrilled with how
+   thick the horizontal bars are in CairoPlot's gantt chart implementation.
+   However, I haven't found a magic part of the code to change the thickness
+   of the bars.
+   Also, if you throw more than ~12 hours of data in to the script, you're
+   vertical bars get REALLY small and hard to read.  This is NOT a
+   contridiction in my environment, since my backups tend to take 9ish hours
+   for 1 day.

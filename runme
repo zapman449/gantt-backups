@@ -10,6 +10,9 @@ echo '-----cleanup'
 grep Full stage2.out > stage2.full.out
 grep Cum stage2.out > stage2.cumm.out
 grep Diff stage2.out > stage2.diff.out
+echo '-----produce_gantt -> All'
+./produce_gantt.py ./stage2.out
+mv visual_schedule.svg all.svg
 echo '-----produce_gantt -> Full'
 ./produce_gantt.py ./stage2.full.out
 mv visual_schedule.svg full.svg
